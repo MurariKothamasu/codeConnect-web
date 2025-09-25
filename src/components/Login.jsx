@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router";
-import { BASE_URL } from "../App";
+import { BASE_URL } from "../utils/constants";
 const Login = () => {
   const [emailId, setEmailId] = useState("murari@gmail.com");
-  const [password, setPassword] = useState("Murari@192003");
+  const [password, setPassword] = useState("Murari@0305");
   const [error , setError] = useState("")
   const dispatch = useDispatch();
   const navigate = useNavigate();

@@ -5,7 +5,6 @@ import Profile from "./components/Profile";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Feed from "./components/Feed";
-export const BASE_URL = "http://localhost:3000"
 function App() {
   return (
     <>
