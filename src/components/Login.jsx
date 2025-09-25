@@ -7,6 +7,7 @@ import { BASE_URL } from "../App";
 const Login = () => {
   const [emailId, setEmailId] = useState("murari@gmail.com");
   const [password, setPassword] = useState("Murari@192003");
+  const [error , setError] = useState("")
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -20,11 +21,10 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      console.log(res.data);
       dispatch(addUser(res.data));
       return navigate("/");
     } catch (error) {
-      
+      setError(error.response?.data || "Something Went Wrong")
     }
   };
   return (
@@ -49,8 +49,8 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
-        <button className="btn btn-neutral mt-4" onClick={handleLogin}>
+        <p className="py-1 text-red-400">{error}</p>
+        <button className="btn btn-neutral mt-2" onClick={handleLogin}>
           Login
         </button>
       </fieldset>
