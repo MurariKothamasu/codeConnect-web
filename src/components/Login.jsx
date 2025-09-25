@@ -3,25 +3,29 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router";
-
+import { BASE_URL } from "../App";
 const Login = () => {
   const [emailId, setEmailId] = useState("murari@gmail.com");
   const [password, setPassword] = useState("Murari@192003");
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
-    const res = await axios.post(
-      "http://localhost:3000/login",
-      {
-        email: emailId,
-        password,
-      },
-      { withCredentials: true }
-    );
-    console.log(res.data)
-    dispatch(addUser(res.data))
-    return navigate("/")
+    try {
+      const res = await axios.post(
+        BASE_URL + "/login",
+        {
+          email: emailId,
+          password,
+        },
+        { withCredentials: true }
+      );
+      console.log(res.data);
+      dispatch(addUser(res.data));
+      return navigate("/");
+    } catch (error) {
+      
+    }
   };
   return (
     <div className="flex  justify-center my-10">
