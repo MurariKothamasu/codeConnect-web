@@ -41,7 +41,7 @@ const NavBar = () => {
     <div className="navbar shadow-sm mt-2">
       <div className="navbar-start">
         <Link to="/" className="btn btn-ghost text-xl">
-          👨🏼‍💻 DevTinder
+          👨🏼‍💻 CodeConnect
         </Link>
       </div>
 
