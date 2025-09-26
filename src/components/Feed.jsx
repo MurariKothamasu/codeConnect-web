@@ -19,10 +19,13 @@ const Feed = () => {
 
 
   useEffect(()=>{
-    if(!feed){
       getFeed()
-    }
   } ,[])
+
+  if(!feed) return 
+  if(feed.length <=  0){
+    return <h2 className="flex justify-center mt-10 font-bold text-2xl">No More Users Are available</h2>
+  }
 
   return feed && <div className="flex justify-center my-10">
       <UserCard user={feed[0]}/>
