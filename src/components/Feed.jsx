@@ -22,7 +22,7 @@ const Feed = () => {
     if(!feed){
       getFeed()
     }
-  } ,[feed])
+  } ,[])
 
   return feed && <div className="flex justify-center my-10">
       <UserCard user={feed[0]}/>

@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import { removeFeed } from "../utils/feedSlicle";
+import { removeConnections } from "../utils/connectionSlice";
 
 const NavBar = () => {
   const user = useSelector((store) => store.user);
@@ -12,7 +13,7 @@ const NavBar = () => {
   const dispatch = useDispatch();
 
   // Theme state
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -27,6 +28,7 @@ const NavBar = () => {
       await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
       dispatch(removeUser());
       dispatch(removeFeed());
+      dispatch(removeConnections());
       navigate("/login");
     } catch (error) {
       if (error.status === 401) {
@@ -37,41 +39,37 @@ const NavBar = () => {
 
   return (
     <div className="navbar shadow-sm mt-2">
-      {/* Left: Logo + Website name */}
       <div className="navbar-start">
         <Link to="/" className="btn btn-ghost text-xl">
           👨🏼‍💻 DevTinder
         </Link>
       </div>
 
-      {/* Middle: Navigation buttons with background + rounded corners */}
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal bg-base-300 rounded-xl px-3 shadow flex items-center">
-          <li className="border-r border-gray-400 pr-3">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="border-r border-gray-400 px-3">
-            <Link to="/connections">Connections</Link>
-          </li>
-          <li className="pl-3">
-            <Link to="/requests">Requests</Link>
-          </li>
-        </ul>
-      </div>
+      {user && (
+        <>
+          <div className="navbar-center hidden lg:flex">
+            <ul className="menu menu-horizontal bg-base-300 rounded-xl px-3 shadow flex items-center">
+              <li className="border-r border-gray-400 pr-3">
+                <Link to="/">Home</Link>
+              </li>
+              <li className="border-r border-gray-400 px-3">
+                <Link to="/connections">Connections</Link>
+              </li>
+              <li className="pl-3">
+                <Link to="/requests">Requests</Link>
+              </li>
+            </ul>
+          </div>
 
-      {/* Right: Theme toggler + User info */}
-      <div className="navbar-end flex gap-2 items-center">
-        {/* Theme toggler */}
-        <button
-          className="btn btn-ghost btn-circle"
-          onClick={toggleTheme}
-          title="Toggle Theme"
-        >
-          {theme === "light" ? "🌞" : "🌙"}
-        </button>
+          <div className="navbar-end flex gap-2 items-center">
+            <button
+              className="btn btn-ghost btn-circle"
+              onClick={toggleTheme}
+              title="Toggle Theme"
+            >
+              {theme === "light" ? "🌞" : "🌙"}
+            </button>
 
-        {user && (
-          <>
             <span className="font-medium">Welcome, {user.firstName}</span>
             <div className="dropdown dropdown-end mx-2">
               <div
@@ -83,7 +81,7 @@ const NavBar = () => {
                   <img
                     alt="User profile"
                     src={user.photoUrl}
-                    onError={(e) => (e.target.src = "/default-avatar.png")}
+                    onError={(e) => (e.currentTarget.src = "/default-avatar.png")}
                   />
                 </div>
               </div>
@@ -104,9 +102,9 @@ const NavBar = () => {
                 </li>
               </ul>
             </div>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
