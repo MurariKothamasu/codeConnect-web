@@ -3,7 +3,7 @@ const UserCard = ({ user }) => {
   const { firstName, lastName, age, gender, photoUrl, about, skils } = user;
   return (
     <div className="card bg-base-300 w-96 shadow-lg rounded-xl overflow-hidden transform transition duration-300 hover:scale-105 my-10">
-  <figure className="relative h-80 w-full overflow-hidden">
+  <figure className="relative h-110 w-full overflow-hidden">
     <img
       src={user.photoUrl}
       alt="photo"
@@ -17,7 +17,7 @@ const UserCard = ({ user }) => {
     <h2 className="card-title justify-center text-xl font-semibold">
       {firstName} {lastName}
     </h2>
-    <p className="text-gray-300 mt-2">{user.about}</p>
+    <p className="text-gray-500 mt-2">{user.about}</p>
     <div className="card-actions justify-center mt-4 gap-4">
       <button className="btn btn-outline btn-error">Ignore</button>
       <button className="btn btn-primary">Interested</button>

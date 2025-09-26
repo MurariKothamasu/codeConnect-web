@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router";
 import { BASE_URL } from "../utils/constants";
+import { removeFeed } from "../utils/feedSlicle";
 const Login = () => {
   const [emailId, setEmailId] = useState("murari@gmail.com");
   const [password, setPassword] = useState("Murari@0305");
@@ -22,7 +23,7 @@ const Login = () => {
         { withCredentials: true }
       );
       dispatch(addUser(res.data));
-      return navigate("/");
+      navigate("/");
     } catch (error) {
       setError(error.response?.data || "Something Went Wrong")
     }

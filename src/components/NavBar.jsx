@@ -3,42 +3,65 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
+import { removeFeed } from "../utils/feedSlicle";
 
 const NavBar = () => {
   const user = useSelector((store) => store.user);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const handleLogout = async()=>{
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
     try {
-      await axios .post(BASE_URL + "/logout" ,{} , {withCredentials : true})
-      dispatch(removeUser())
-      navigate("/login")
+      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
+      dispatch(removeUser());
+      dispatch(removeFeed());
+      navigate("/login");
     } catch (error) {
-      if(error.status === 401){
-        navigate("/login")
+      if (error.status === 401) {
+        navigate("/login");
       }
     }
-  }
+  };
   return (
-    <div className="navbar bg-base-300 shadow-sm">
-      <div className="flex-1">
-        <Link to="/" className="btn btn-ghost text-xl">👨🏼‍💻 DevTinder</Link>
+    <div className="navbar shadow-sm mt-2">
+      {/* Left: Logo + Website name */}
+      <div className="navbar-start">
+        <Link to="/" className="btn btn-ghost text-xl">
+          👨🏼‍💻 DevTinder
+        </Link>
       </div>
-      <div className="flex gap-2 items-center">
+
+      {/* Middle: Navigation buttons with background + rounded corners */}
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal bg-base-300 rounded-xl px-3 shadow flex items-center">
+          <li className="border-r border-gray-400 pr-3">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="border-r border-gray-400 px-3">
+            <Link to="/connections">Connections</Link>
+          </li>
+          <li className="pl-3">
+            <Link to="/requests">Requests</Link>
+          </li>
+        </ul>
+      </div>
+
+      {/* Right: User info + Profile dropdown */}
+      <div className="navbar-end flex gap-2 items-center">
         {user && (
           <>
-            {/* 👇 Welcome message */}
             <span className="font-medium">Welcome, {user.firstName}</span>
-
-            {/* 👇 Avatar dropdown */}
-            <div className="dropdown dropdown-end mx-5">
+            <div className="dropdown dropdown-end mx-2">
               <div
                 tabIndex={0}
                 role="button"
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10 rounded-full">
-                  <img alt="User profile" src={user.photoUrl} />
+                  <img
+                    alt="User profile"
+                    src={user.photoUrl}
+                    onError={(e) => (e.target.src = "/default-avatar.png")}
+                  />
                 </div>
               </div>
               <ul
