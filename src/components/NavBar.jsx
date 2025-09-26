@@ -45,8 +45,9 @@ const NavBar = () => {
         </Link>
       </div>
 
-      {user && (
+      {user ? (
         <>
+          {/* Desktop menu */}
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal bg-base-300 rounded-xl px-3 shadow flex items-center">
               <li className="border-r border-gray-400 pr-3">
@@ -61,6 +62,30 @@ const NavBar = () => {
             </ul>
           </div>
 
+          {/* Mobile dropdown (visible below lg) */}
+          <div className="navbar-center lg:hidden">
+            <div className="dropdown">
+              <label tabIndex={0} className="btn btn-ghost">
+                ☰
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-40"
+              >
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="/connections">Connections</Link>
+                </li>
+                <li>
+                  <Link to="/requests">Requests</Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Right side actions */}
           <div className="navbar-end flex gap-2 items-center">
             <button
               className="btn btn-ghost btn-circle"
@@ -70,7 +95,10 @@ const NavBar = () => {
               {theme === "light" ? "🌞" : "🌙"}
             </button>
 
-            <span className="font-medium">Welcome, {user.firstName}</span>
+            <span className="font-medium hidden sm:inline">
+              Welcome, {user.firstName}
+            </span>
+
             <div className="dropdown dropdown-end mx-2">
               <div
                 tabIndex={0}
@@ -81,7 +109,9 @@ const NavBar = () => {
                   <img
                     alt="User profile"
                     src={user.photoUrl}
-                    onError={(e) => (e.currentTarget.src = "/default-avatar.png")}
+                    onError={(e) =>
+                      (e.currentTarget.src = "/default-avatar.png")
+                    }
                   />
                 </div>
               </div>
@@ -104,6 +134,13 @@ const NavBar = () => {
             </div>
           </div>
         </>
+      ) : (
+        // when no user → show login button
+        <div className="navbar-end">
+          <Link to="/login" className="btn btn-primary">
+            Login
+          </Link>
+        </div>
       )}
     </div>
   );

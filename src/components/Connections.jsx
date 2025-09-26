@@ -16,14 +16,12 @@ const Connections = () => {
   };
 
   useEffect(() => {
-    if (!connections) {
       fetchConnections();
-    }
   }, []);
 
   if (!connections) return;
 
-  if (connections.length === 0) return <div>No connections found</div>;
+  if (connections.length === 0) return <div className="flex justify-center font-bold text-2xl mt-5">No connections found</div>;
 
   return (
     <>
