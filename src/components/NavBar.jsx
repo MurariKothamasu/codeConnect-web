@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
+import { useState, useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import { removeFeed } from "../utils/feedSlicle";
@@ -9,6 +10,18 @@ const NavBar = () => {
   const user = useSelector((store) => store.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // Theme state
+  const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
   const handleLogout = async () => {
     try {
       await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
@@ -21,6 +34,7 @@ const NavBar = () => {
       }
     }
   };
+
   return (
     <div className="navbar shadow-sm mt-2">
       {/* Left: Logo + Website name */}
@@ -45,8 +59,17 @@ const NavBar = () => {
         </ul>
       </div>
 
-      {/* Right: User info + Profile dropdown */}
+      {/* Right: Theme toggler + User info */}
       <div className="navbar-end flex gap-2 items-center">
+        {/* Theme toggler */}
+        <button
+          className="btn btn-ghost btn-circle"
+          onClick={toggleTheme}
+          title="Toggle Theme"
+        >
+          {theme === "light" ? "🌞" : "🌙"}
+        </button>
+
         {user && (
           <>
             <span className="font-medium">Welcome, {user.firstName}</span>
